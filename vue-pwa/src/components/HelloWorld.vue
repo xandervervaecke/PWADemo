@@ -3,9 +3,7 @@
     <h1>{{ msg }}</h1>
     
     <div> In store: <br>
-            <button @click="subscribe()" v-for="(opdracht, index) in opdrachten" v-bind:key="index"> {{opdracht}} <br></button>
-            <button @click="subscribe()" v-for="(opdracht, index) in projet" v-bind:key="index"> {{opdracht.name}} <br></button>
-        
+            <button @click="subscribe()" v-for="(opdracht, index) in opdrachten" v-bind:key="index"> {{opdracht}} <br></button>        
     </div>
     
   </div>
@@ -27,16 +25,8 @@ export default {
   
   methods: {
   
-  async fficherProjet(){
-     fetch("https://stoplight.io/mocks/appwise-be/pokemon/57519009/pokemon")
-    .then(async response => {
-      const data = await response.json();
-      this.projet = data;
-
+  fficherProjet(){
        const request = window.indexedDB.open("pwaDbdemo",1);
-          await console.log(this.projet);
-
-
           request.onupgradeneeded = function(){
             const objectStore = request.result.createObjectStore("users",{keyPath:"id"});            
               objectStore.add({
@@ -72,12 +62,7 @@ export default {
                 console.log(this.result.opdracht)
               }
             }
-          }
-    })
-    .catch(error => {
-      this.errorMessage = error;
-      console.error("There was an error!", error);
-    });   
+          } 
  },
  
   async subscribe() {
@@ -90,9 +75,9 @@ export default {
     console.log(JSON.stringify(push))
     }
 },
-async mounted() {
+mounted() {
            console.log('Component mounted.')
-           await this.fficherProjet();
+           this.fficherProjet();
            
          
         }
